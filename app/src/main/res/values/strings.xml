@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Catedium</string>
+    <string name="jobtitle">Explore Big Cats Diversity: Smart, Practical, Confident with\nCATEDIUM!</string>
+    <string name="title">CATEDIUM</string>
+    <string name="get_start">Get Started</string>
+    <string name="home_text">CATEDIUM: Aplikasi detektsi jenis kucing dari gambar membantu pengguna mengenali kucing, termasuk perilaku, habitat, dan nama lainnya.</string>
+    <string name="camera">Identifikasi</string>
+    <string name="call_center">Hubungi Kami</string>
+    <string name="next">Segera Hadir</string>
+    <string name="pustaka">Pustaka</string>
+    <string name="nama_latin">Scientific Name</string>
+    <string name="distribusi">Distribusi</string>
+    <string name="habitat">Habitat</string>
+    <string name="character">Kararekteristik</string>
+</resources>
