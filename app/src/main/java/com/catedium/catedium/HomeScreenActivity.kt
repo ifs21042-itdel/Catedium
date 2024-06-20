@@ -11,7 +11,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.catedium.catedium.databinding.ActivityHomeScreenBinding
@@ -45,11 +44,6 @@ class HomeScreenActivity : AppCompatActivity() {
         uri?.let { handleSelectedImage(it) }
     }
 
-    private val pickMultipleImagesLauncher = registerForActivityResult(
-        ActivityResultContracts.GetMultipleContents()
-    ) { uris: List<Uri>? ->
-        uris?.let { handleSelectedImages(it) }
-    }
 
     private val takePictureLauncher = registerForActivityResult(
         ActivityResultContracts.TakePicture()
@@ -80,17 +74,26 @@ class HomeScreenActivity : AppCompatActivity() {
             val intent = Intent(this, PustakaActivity::class.java)
             startActivity(intent)
         }
+
+        binding.callCenter.setOnClickListener {
+            val intent = Intent(this, ContactActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.next.setOnClickListener{
+            val intent = Intent(this, ComingActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun showImageSourceDialog() {
-        val options = arrayOf("Take Photo", "Choose from Gallery", "Pick Images from Storage")
+        val options = arrayOf("Take Photo", "Upload from Gallery")
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Select Option")
         builder.setItems(options) { _, which ->
             when (which) {
                 0 -> checkCameraPermissionAndOpenCamera()
                 1 -> pickImageFromGallery()
-                2 -> checkStoragePermissionAndPickImagesFromStorage()
             }
         }
         builder.show()
@@ -110,35 +113,6 @@ class HomeScreenActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkStoragePermissionAndPickImagesFromStorage() {
-        when {
-            ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                pickImagesFromStorage()
-            }
-            else -> {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                    REQUEST_STORAGE_PERMISSIONS
-                )
-            }
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_STORAGE_PERMISSIONS) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                pickImagesFromStorage()
-            } else {
-                Toast.makeText(this, "Storage permissions are required to access photos", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         photoFile = createImageFile()
@@ -153,10 +127,6 @@ class HomeScreenActivity : AppCompatActivity() {
 
     private fun pickImageFromGallery() {
         pickImageLauncher.launch("image/*")
-    }
-
-    private fun pickImagesFromStorage() {
-        pickMultipleImagesLauncher.launch("image/*")
     }
 
     private fun handleSelectedImage(uri: Uri) {

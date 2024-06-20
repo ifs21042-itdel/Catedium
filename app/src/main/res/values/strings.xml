@@ -12,4 +12,8 @@
     <string name="distribusi">Distribusi</string>
     <string name="habitat">Habitat</string>
     <string name="character">Kararekteristik</string>
+    <string name="contactme">Contact Us</string>
+    <string name="back_soon">We\'ll Be Back Soon</string>
+    <string name="maintenance">Catedium is coming soon to update aplication.</string>
+    <string name="descs">In the meantime, Please contact us to new aplications.\nThank You!</string>
 </resources>
